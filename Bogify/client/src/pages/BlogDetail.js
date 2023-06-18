@@ -1,0 +1,109 @@
+import React,{useState,useEffect}from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-hot-toast';
+
+const BlogDetail = () => {
+    const [inputs,setInputs] = useState({})
+    const [blogs,setBlogs] = useState({})
+    const id = useParams().id
+
+    const Id =  localStorage.getItem("userId")
+    const navigate =useNavigate()
+
+    const getBlogs =async()=>{
+        try {
+            const response = await fetch(
+                `http://localhost:3001/api/v1/blog/get-blog/${id}`,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "auth-token":localStorage.getItem("token")
+                  },  
+                })
+            const data = await response.json()
+            console.log(data)
+            if(data?.success){
+                setBlogs(data?.blog)
+                setInputs({title:data?.blog.title,description:data?.blog.description,image:data?.blog.image})
+                
+              }else{
+                toast.error(data.message)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    console.log(blogs)
+    useEffect(() => {
+      getBlogs()
+      //eslint-disable-next-line
+    }, [])
+    
+    const handleChange = (e) => {
+      setInputs({[e.target.name]: e.target.value
+      });
+    };
+    
+    
+    const handleSubmit =async(e)=>{
+      e.preventDefault();
+      try {
+        // API Call  with fetch headers
+        const response = await fetch(
+          `/api/v1/blog/update-blog/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token":localStorage.getItem("token")
+            },
+            body: JSON.stringify({
+              title:inputs.title,
+              description:inputs.description,
+              image:inputs.image,
+              user:Id
+            }),
+          });
+        
+        const data = await response.json();
+        if(data?.success){
+          toast.success("blog updated")
+          navigate("/my-blogs")
+         }
+         else if(data.success !== true){
+           toast.error(data.message)
+         }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
+    return (
+     <>
+       <div className="card mx-auto mt-5" style={{width:'80%'}}>
+    <div className="card-body">
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="title" style={{fontWeight:"bold"}}>Title</label>
+          <input type="text" className="form-control" id="title" placeholder="Enter title" name="title" value={inputs.title} onChange={handleChange}/>
+        </div>
+        <div className="form-group" style={{marginTop:"10px"}}>
+          <label htmlFor="descriptionTextarea" style={{fontWeight:"bold"}}>Description</label>
+          <textarea className="form-control" id="description" name="description" rows="6" placeholder="Enter description" value={inputs.description} onChange={handleChange}></textarea>
+        </div>
+        <div className="form-group" style={{marginTop:"10px"}}>
+          <label htmlFor="imageInput" style={{fontWeight:"bold"}}>Image</label>
+          <input type="text" className="form-control" id="image" name="image" value={inputs.image} onChange={handleChange}/>
+        </div>
+        <button type="submit" className="btn btn-primary mt-3">Submit</button>
+      </form>
+    </div>
+  </div>
+  
+     </>
+    )
+}
+
+export default BlogDetail

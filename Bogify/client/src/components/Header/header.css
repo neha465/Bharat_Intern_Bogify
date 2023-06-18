@@ -1,0 +1,146 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+ font-family: google sans 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+body{
+    background: #fefefe;
+    
+}
+
+header{
+    width: vw;
+    height: 80px;
+    background-color: #11101b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 100px;
+}
+
+.logo{
+font-size: 24px;
+font-weight: bold;
+color: #fefefe;
+align-items: center;
+}
+
+.hamburger{
+    display: none;
+}
+
+.nav-bar ul{
+    display: flex;
+    margin-top: 20px;
+}
+
+.nav-bar ul li a{
+    display: block;
+    color: #fefefe;
+    font-size: 20px;
+    padding: 5px 25px;
+    border-radius: 50px;
+    transition: 0.2s;
+    margin: 0;
+    text-decoration: none !important;
+}
+
+.nav-bar ul li a:hover{
+    color: #11101b;
+    background-color: #fefefe;
+}
+/* .nav-bar ul li a.active{
+    color: #11101b;
+    background-color: #fefefe;
+} */
+.icon{
+    margin-left: 70%;
+}
+.icon i{
+    margin-left: 30px;
+}
+@media only screen and (max-width:1320px){
+    header{
+        padding:0 50px ;
+    }
+}
+
+@media only screen and (max-width:1100px){
+    header{
+        padding:0 30px ;
+    }
+    .icon{
+        margin-left: 60%;
+    }
+
+}
+
+@media only screen and (max-width:900px){
+    .hamburger{
+        display: block;
+        cursor: pointer;
+    }
+    .hamburger .line{
+        width: 30px;
+        height: 3px;
+        background: #fefefe;
+        margin: 6px;
+    }
+    .nav-bar.active{
+        height: 400px;
+        z-index:2;
+    }
+    .nav-bar{
+        height: 0;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: #11101b;
+        transition: 0.2s;
+        overflow: hidden;
+    }
+    .nav-bar ul{
+        display: block;
+        width: fit-content;
+        margin: 80px auto 0 auto;
+        text-align: center;
+        transform: 0.5s;
+        opacity: 0;
+    }
+    .nav-bar.active ul{
+        opacity: 1;
+    }
+    .nav-bar ul li a{
+        margin-bottom: 12px;
+       
+    }
+    .icon{
+        margin-left: 50%;
+    }
+
+}
+
+@media only screen and (max-width:740px){
+    .icon{
+        margin-left: 40%;
+    }
+
+}
+@media only screen and (max-width:620px){
+    .icon{
+        margin-left: 30%;
+    }
+
+}
+
+@media only screen and (max-width:540px){
+    .icon{
+        margin-left: 20%;
+    }
+
+}
